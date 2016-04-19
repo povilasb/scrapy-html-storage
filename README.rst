@@ -41,3 +41,17 @@ The file path where HTML will be stored is resolved with spider method
                 response.
         """
         return 'html/last_response.html'
+
+Configuration
+=============
+
+HTML storage downloader middleware supports such options:
+
+* **gzip_output** (bool) - if True, HTML output will be stored in gzip format.
+  Default is False.
+
+Sample::
+
+    HTML_STORAGE = {
+        'gzip_output': True
+    }
