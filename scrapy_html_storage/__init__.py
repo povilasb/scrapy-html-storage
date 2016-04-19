@@ -7,6 +7,29 @@ import scrapy_html_storage.filesys as fs
 class HtmlStorageMiddleware(object):
     """Scrapy downloader middleware that stores HTML files to local file system.
     """
+
+    def __init__(self, settings):
+        """
+        Args:
+            settings (scrapy.settings.Settings)
+        """
+        self.settings = settings.get('HTML_STORAGE', {})
+        self.gzip_output = self.settings.get('gzip_output', False)
+
+
+    @classmethod
+    def from_settings(self, settings):
+        """Contruct middleware with scrapy settings.
+
+        Args:
+            settings (scrapy.settings.Settings)
+
+        Returns:
+            HtmlStorageMiddleware:
+        """
+        return HtmlStorageMiddleware(settings)
+
+
     def process_response(self, request, response, spider):
         """Stores response HTML body to file.
 
