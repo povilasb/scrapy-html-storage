@@ -44,10 +44,24 @@ class HtmlStorageMiddleware(object):
             scrapy.http.response.Response: unmodified response object.
         """
         if should_save_html(request):
-            save_to = spider.response_html_path(request)
-            fs.write_to_file(save_to, response.body)
+            self._save_html_to(spider.response_html_path(request), response.body)
 
         return response
+
+
+    def _save_html_to(self, path, html_body):
+        """Store html to file.
+
+        Optionally file will be gzipped.
+
+        Args:
+            str(path): file path to save html to. '.gz' suffix is appended
+                in case of gzipping.
+        """
+        if self.gzip_output:
+            fs.write_to_gzip(path + '.gz', html_body)
+        else:
+            fs.write_to_file(path, html_body)
 
 
 def should_save_html(request):

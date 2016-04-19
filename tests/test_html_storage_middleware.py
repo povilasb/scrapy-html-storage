@@ -31,7 +31,7 @@ def test_should_save_html_returns_true_when_request_metainformation_has_special_
 @patch('scrapy_html_storage.filesys.write_to_file')
 def test_process_response_stores_response_body_to_file_if_request_asks_for_it(
         write_to_file_mock):
-    downloader = HtmlStorageMiddleware(MagicMock())
+    downloader = HtmlStorageMiddleware(Settings())
     request_mock = make_request_mock(save_html=True)
 
     downloader.process_response(request_mock, MagicMock(), MagicMock())
@@ -42,7 +42,7 @@ def test_process_response_stores_response_body_to_file_if_request_asks_for_it(
 @patch('scrapy_html_storage.filesys.write_to_file')
 def test_process_response_saves_response_html_to_file_resolved_by_spider(
         write_to_file_mock):
-    downloader = HtmlStorageMiddleware(MagicMock())
+    downloader = HtmlStorageMiddleware(Settings())
     request_mock = make_request_mock(save_html=True)
 
     spider_mock = MagicMock()
@@ -51,6 +51,18 @@ def test_process_response_saves_response_html_to_file_resolved_by_spider(
     downloader.process_response(request_mock, MagicMock(), spider_mock)
 
     write_to_file_mock.assert_called_with('/tmp/response.html', ANY)
+
+
+@patch('scrapy_html_storage.filesys.write_to_gzip')
+def test_process_response_stores_response_body_to_gzip_file_if_this_setting_is_on(
+        write_to_gzip_mock):
+    downloader = HtmlStorageMiddleware(Settings())
+    downloader.gzip_output = True
+    request_mock = make_request_mock(save_html=True)
+
+    downloader.process_response(request_mock, MagicMock(), MagicMock())
+
+    assert_that(write_to_gzip_mock.call_count, is_(1))
 
 
 def test_from_settings_constructs_middleware_with_the_specified_settings():
