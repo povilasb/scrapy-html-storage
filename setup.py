@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='scrapy-html-storage',
-    version='0.1.0',
+    version='0.2.0',
     description='Scrapy downloader middleware that stores response HTML files to disk.',
     long_description=open('README.rst').read(),
     url='https://github.com/povilasb/scrapy-html-storage',
