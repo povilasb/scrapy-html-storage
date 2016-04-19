@@ -2,6 +2,7 @@
 """
 
 import os
+import gzip
 
 
 def ensure_dir_exists(dir_path):
@@ -15,6 +16,7 @@ def ensure_dir_exists(dir_path):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
+
 def write_to_file(fname, html_body):
     """Writes text to file.
 
@@ -26,4 +28,18 @@ def write_to_file(fname, html_body):
     ensure_dir_exists(dir_path)
 
     with open(fname, 'w') as html_file:
+        html_file.write(html_body)
+
+
+def write_to_gzip(fname, html_body):
+    """Writes text to compressed file.
+
+    Args:
+        fname (str): save compressed text to this file.
+        html_body (str): results page HTML content.
+    """
+    dir_path = os.path.dirname(fname)
+    ensure_dir_exists(dir_path)
+
+    with gzip.open(fname, 'wb') as html_file:
         html_file.write(html_body)
