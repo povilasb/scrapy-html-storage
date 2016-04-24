@@ -2,6 +2,8 @@
 About
 =====
 
+.. image:: https://travis-ci.org/povilasb/scrapy-html-storage.svg?branch=master
+
 This is Scrapy downloader middleware that stores response HTMLs to disk.
 
 Usage
