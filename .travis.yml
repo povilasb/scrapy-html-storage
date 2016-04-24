@@ -7,4 +7,4 @@ script:
   - make test
 
 after_success:
-  coveralls
+  COVERALLS_REPO_TOKEN=0SNOWwX2OjKNbZHPZD7HbtfCHYzY7dSZG coveralls
