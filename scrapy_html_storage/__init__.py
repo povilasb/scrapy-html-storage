@@ -56,11 +56,10 @@ class HtmlStorageMiddleware(object):
         Optionally file will be gzipped.
 
         Args:
-            str(path): file path to save html to. '.gz' suffix is appended
-                in case of gzipping.
+            str(path): file path to save html to.
         """
         if self.gzip_output:
-            fs.write_to_gzip(path + '.gz', html_body)
+            fs.write_to_gzip(path, html_body)
         else:
             fs.write_to_file(path, html_body)
 
