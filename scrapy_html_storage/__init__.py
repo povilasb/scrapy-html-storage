@@ -15,6 +15,7 @@ class HtmlStorageMiddleware(object):
         """
         self.settings = settings.get('HTML_STORAGE', {})
         self.gzip_output = self.settings.get('gzip_output', False)
+        self.save_html_on_codes = self.settings.get('save_html_on_codes', [])
 
 
     @classmethod
@@ -43,7 +44,7 @@ class HtmlStorageMiddleware(object):
         Returns:
             scrapy.http.response.Response: unmodified response object.
         """
-        if should_save_html(request):
+        if self._should_save_html(request, response):
             self._save_html_to(spider.response_html_path(request), response.body)
 
         return response
@@ -55,21 +56,38 @@ class HtmlStorageMiddleware(object):
         Optionally file will be gzipped.
 
         Args:
-            str(path): file path to save html to. '.gz' suffix is appended
-                in case of gzipping.
+            str(path): file path to save html to.
         """
         if self.gzip_output:
-            fs.write_to_gzip(path + '.gz', html_body)
+            fs.write_to_gzip(path, html_body)
         else:
             fs.write_to_file(path, html_body)
 
 
-def should_save_html(request):
+    def _should_save_html(self, request, response):
+        """
+        Args:
+            request (scrapy.http.request.Request)
+            response (scrapy.http.response.Response)
+
+        Returns:
+            bool: True if this request should be stored to disk, False otherwise.
+        """
+        return 'save_html' in request.meta and \
+            should_save_html_according_response_code(
+                response.status,
+                self.save_html_on_codes
+            )
+
+
+def should_save_html_according_response_code(code, allowed_list):
     """
     Args:
-        request (scrapy.http.request.Request)
+        code (int): response status code
+        allowed_list (list): list of response status codes allowed to save html
 
     Returns:
-        bool: True if this request should be stored to disk, False otherwise.
+        bool: True if allowed_list is empty (save all responses), or response
+              code in allowed list.
     """
-    return 'save_html' in request.meta
+    return not allowed_list or code in allowed_list

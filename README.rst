@@ -52,9 +52,13 @@ HTML storage downloader middleware supports such options:
 
 * **gzip_output** (bool) - if True, HTML output will be stored in gzip format.
   Default is False.
+* **save_html_on_status** (list) - if not empty, sets list of response codes
+  whitelisted for html saving. If list is empty or not provided, all response
+  codes will be allowed for html saving.
 
 Sample::
 
     HTML_STORAGE = {
-        'gzip_output': True
+        'gzip_output': True,
+        'save_html_on_status': [200, 202]
     }
