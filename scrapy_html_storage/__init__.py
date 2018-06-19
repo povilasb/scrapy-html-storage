@@ -56,7 +56,7 @@ class HtmlStorageMiddleware(object):
             scrapy.http.response.Response: unmodified response object.
         """
         if self._should_save_html(request, response):
-            self._save_html_to(spider.response_html_path(request), response.body)
+            self._save_html_to(spider.response_html_path(request), response.text)
 
         return response
 
