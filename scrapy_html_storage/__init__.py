@@ -17,6 +17,17 @@ class HtmlStorageMiddleware(object):
         self.gzip_output = self.settings.get('gzip_output', False)
         self.save_html_on_codes = self.settings.get('save_html_on_codes', [])
 
+    @classmethod
+    def from_crawler(cls, crawler):
+        """Contruct middleware with scrapy settings.
+
+        Args:
+            settings (scrapy.settings.Settings)
+
+        Returns:
+            HtmlStorageMiddleware:
+        """
+        return cls(crawler.settings)
 
     @classmethod
     def from_settings(self, settings):
