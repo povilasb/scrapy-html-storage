@@ -19,7 +19,7 @@ Turn downloader on, e.g. specifying it in `settings.py`::
 None of responses by default are saved to disk.
 You must select for which requests the response HTMLs will be saved::
 
-       def parse(self, response):
+   def parse(self, response):
         """Processes start urls.
 
         Args:
@@ -38,12 +38,12 @@ The file path where HTML will be stored is resolved with spider method
 
     class TargetSpider(scrapy.Spider):
         def response_html_path(self, request):
-        """
-        Args:
-            request (scrapy.http.request.Request): request that produced the
-                response.
-        """
-        return 'html/last_response.html'
+            """
+            Args:
+                request (scrapy.http.request.Request): request that produced the
+                    response.
+            """
+            return 'html/last_response.html'
 
 Configuration
 =============
