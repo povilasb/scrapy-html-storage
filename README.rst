@@ -2,10 +2,7 @@
 About
 =====
 
-.. image:: https://travis-ci.org/povilasb/scrapy-html-storage.svg?branch=master
-.. image:: https://coveralls.io/repos/github/povilasb/scrapy-html-storage/badge.svg?branch=master :target: https://coveralls.io/github/povilasb/scrapy-html-storage?branch=master
-
-This is Scrapy downloader middleware that stores response HTMLs to disk.
+A [Scrapy downloader middleware](https://docs.scrapy.org/en/latest/topics/downloader-middleware.html) that stores response HTMLs to disk.
 
 Usage
 =====
