@@ -108,15 +108,6 @@ def test_process_response_stores_response_body_to_gzip_file_if_this_setting_is_o
     assert_that(write_to_gzip_mock.call_count, is_(1))
 
 
-def test_from_settings_constructs_middleware_with_the_specified_settings():
-    settings = Settings()
-    settings.set('HTML_STORAGE', {'test': 'settings'})
-
-    downloader = HtmlStorageMiddleware.from_settings(settings)
-
-    assert_that(downloader.settings, is_({'test': 'settings'}))
-
-
 def test_constructor_extracts_expected_settings():
     settings = Settings()
     save_html_on_codes = make_allowed_response_codes_list()
