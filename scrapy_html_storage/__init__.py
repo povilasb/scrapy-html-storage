@@ -1,5 +1,6 @@
 """Downloader middlewares.
 """
+import re
 
 import scrapy_html_storage.filesys as fs
 
@@ -16,6 +17,7 @@ class HtmlStorageMiddleware(object):
         self.settings = settings.get('HTML_STORAGE', {})
         self.gzip_output = self.settings.get('gzip_output', False)
         self.save_html_on_codes = self.settings.get('save_html_on_codes', [])
+        self._save_by_url = [re.compile(pattern) for pattern in self.settings.get('save_by_url', [])] # type: list[re.Pattern]
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -75,7 +77,7 @@ class HtmlStorageMiddleware(object):
             fs.write_to_file(path, html_body)
 
 
-    def _should_save_html(self, request, response):
+    def _should_save_html(self, request, response):  # type: (scrapy.http.request.Request, scrapy.http.response.Response) -> bool
         """
         Args:
             request (scrapy.http.request.Request)
@@ -84,11 +86,23 @@ class HtmlStorageMiddleware(object):
         Returns:
             bool: True if this request should be stored to disk, False otherwise.
         """
-        return 'save_html' in request.meta and \
-            should_save_html_according_response_code(
-                response.status,
-                self.save_html_on_codes
-            )
+        if not should_save_html_according_response_code(
+            response.status,
+            self.save_html_on_codes
+        ):
+            return False
+
+        explicit_save_html = request.meta.get('save_html')
+        if explicit_save_html is not None:
+            return explicit_save_html
+
+        for pattern in self._save_by_url:
+            if pattern.match(request.url):
+                return True
+
+        return False
+
+
 
 
 def should_save_html_according_response_code(code, allowed_list):

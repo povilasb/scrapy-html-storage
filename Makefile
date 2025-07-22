@@ -1,4 +1,4 @@
-virtualenv_dir := pyenv
+virtualenv_dir := .venv
 pip := $(virtualenv_dir)/bin/pip
 pytest := $(virtualenv_dir)/bin/py.test
 pylint := $(virtualenv_dir)/bin/pylint
