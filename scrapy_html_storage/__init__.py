@@ -31,18 +31,6 @@ class HtmlStorageMiddleware(object):
         """
         return cls(crawler.settings)
 
-    @classmethod
-    def from_settings(self, settings):
-        """Contruct middleware with scrapy settings.
-
-        Args:
-            settings (scrapy.settings.Settings)
-
-        Returns:
-            HtmlStorageMiddleware:
-        """
-        return HtmlStorageMiddleware(settings)
-
 
     def process_response(self, request, response, spider):
         """Stores response HTML body to file.
