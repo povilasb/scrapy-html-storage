@@ -59,7 +59,12 @@ Sample:
 
 ```python
 HTML_STORAGE = {
-    'gzip_output': True,
-    'save_html_on_status': [200, 202]
+    "gzip_output": True,
+    "save_html_on_status": [200, 202],
+    "save_by_url" = [
+        "https://website.com/index.html",
+        ".*",
+        "website.com/section-\w+.html", 
+    ]
 }
 ``` 
