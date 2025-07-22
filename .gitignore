@@ -1,3 +1,2 @@
-pyenv/
+.venv/
 **/*.pyc
-.coverage
