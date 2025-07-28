@@ -3,3 +3,4 @@ pyhamcrest==1.8.5
 mock==1.3.0
 pylint==1.5.4
 Scrapy==2.11.2
+pyright==1.1.403
